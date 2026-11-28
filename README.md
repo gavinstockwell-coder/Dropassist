@@ -1,6 +1,6 @@
-# DropAssist
+# DropBuddy
 
-A personal drop-day helper for **Supreme** (us.supreme.com) and **The North Face** (thenorthface.com).
+A personal drop-day helper for **Supreme** (us.supreme.com). (The North Face support was removed in v1.2.)
 It runs in **Google Chrome** and **Opera GX** (Manifest V3).
 
 It watches for your items, adds the right color and size to your cart, opens checkout, and fills in your saved shipping
@@ -15,15 +15,15 @@ What it never does:
 
 ---
 
-## How each site works (checked against the live sites on 2026-11-25)
+## How Supreme works (checked against the live site on 2026-11-25)
 
-| | Supreme | The North Face |
-|---|---|---|
-| Platform | Shopify (theme `SNY-webshop`) | Custom Vue/Nuxt storefront |
-| What it watches | `/collections/new`. The page embeds every product, color, and size, with stock status, as JSON (`<script id="products-json">`). One request covers the whole drop (~680 KB, ~0.2 s). `/products.json` and similar feeds return **403** on this store. | Product URL: reloads the product page until your size is in stock. Keywords: reads product names from the New Arrivals pages (or a category URL you choose). |
-| Add to cart | `POST /cart/add.js`, the same request the site's own button sends. If that fails, it falls back to clicking through the product page. | Clicks the real **Add to Cart** button, then checks that the cart count went up. In testing, TNF's bot protection **rejected the automated add (HTTP 403)**. When that happens, the extension highlights the button, alerts you, and continues once *you* click. |
-| Checkout | One page (`/checkouts/cn/…`). Contact, shipping, and card are all on one screen. Card fields are in Shopify's secure frames, so your browser's saved card or Shop Pay fills them. Final button: **process payment**. | **Not verified.** Checkout couldn't be reached because of the 403 above, and archive.org was blocked for my web tools. Shipping uses the standard `autocomplete` attributes most checkouts have. Cards: TNF's payment page names **Adyen** as its card processor, so the extension expects Adyen's secure card frames (`*.adyen.com`, `data-fieldtype="encryptedCardNumber"` and so on). That's a prediction. See *Updating selectors* to confirm in 2 minutes. |
-| Drop time | Thursdays 11:00 AM New York time during the season | Per launch. Set a drop time on the watchlist item. |
+| | Supreme |
+|---|---|
+| Platform | Shopify (theme `SNY-webshop`) |
+| What it watches | `/collections/new`. The page embeds every product, color, and size, with stock status, as JSON (`<script id="products-json">`). One request covers the whole drop (~680 KB, ~0.2 s). `/products.json` and similar feeds return **403** on this store. |
+| Add to cart | `POST /cart/add.js`, the same request the site's own button sends. If that fails, it falls back to clicking through the product page. |
+| Checkout | One page (`/checkouts/cn/…`). Contact, shipping, and card are all on one screen. Card fields are in Shopify's secure frames; the extension fills them from your saved profile (or use browser autofill / Shop Pay). Final button: **process payment**. |
+| Drop time | Thursdays 11:00 AM New York time during the season |
 
 ---
 
@@ -34,7 +34,7 @@ What it never does:
    that folder, so don't delete it.
 2. Go to `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and pick the `dropassist` folder (the one that has `manifest.json` in it).
-4. Pin it: click the puzzle icon, then the pin next to DropAssist.
+4. Pin it: click the puzzle icon, then the pin next to DropBuddy.
 
 ### Opera GX
 1. Unzip as above.
@@ -42,9 +42,9 @@ What it never does:
 3. Click **Load unpacked** and pick the `dropassist` folder.
 4. Pin it from the extensions (cube) icon in the sidebar or toolbar.
 5. Opera GX's **RAM/CPU limiters (GX Control)** can slow background tabs. Turn them off on drop day, or keep the
-   Supreme/TNF tab in front.
+   Supreme tab in front.
 
-After you edit any file, click the **reload ↻** icon on the extension's card. Then reload any open Supreme/TNF tabs.
+After you edit any file, click the **reload ↻** icon on the extension's card. Then reload any open Supreme tabs.
 
 ---
 
@@ -59,8 +59,8 @@ Open the popup and click **Options, watchlist & profile**.
    - **Exclude**: skip the product if any of these appear (`tee, beanie`).
    - **Colors / Sizes**: list them in priority order (`black, grey, any` / `L, XL`). End a list with `any` to accept
      anything else as a last resort. Leave it blank to accept anything.
-   - **Product URL**: skips the search. Best for TNF launches.
-   - **Drop time**: leave blank for the weekly default. Set it for TNF launches or surprise drops.
+   - **Product URL**: skips the search and goes straight to that product.
+   - **Drop time**: leave blank for the weekly default. Set it for surprise drops.
 3. **Timing**: the defaults are good. It checks every 3 s, starts 30 s before the drop, and stops 10 min after.
    Don't set the check interval below ~2 s: every check downloads the full product page.
 4. Click **Save** (or Ctrl+S).
@@ -73,7 +73,7 @@ Open the popup and click **Options, watchlist & profile**.
 |---|---|
 | **Arm next drop** | Schedules a run for the next drop on your watchlist. About 1 minute before, it re-syncs the clock and opens and focuses the site tab. Just before the drop, it notes what's already listed so old stock is ignored, then starts checking. Leave the browser open and the computer awake. |
 | **Start now** | Starts checking immediately on the site picked in the dropdown. Use it for restocks and surprise drops. The old-stock filter is off. |
-| **Dry run** | Runs the whole flow on something in stock right now and stops at a filled checkout. Nothing is submitted. Click **Clear cart** on the page banner when you're done. Supreme: type a keyword, or leave it blank for any in-stock item. TNF: paste a product URL. |
+| **Dry run** | Runs the whole flow on something in stock right now and stops at a filled checkout. Nothing is submitted. Click **Clear cart** on the page banner when you're done. Type a keyword, or leave it blank for any in-stock item. |
 | **Fill checkout on this tab** | Fills the checkout you're looking at, whether or not a run is going. |
 | **Stop** | Ends the run. |
 | **sync** | Measures the site's server clock against yours. It watches for the server's `Date` header to tick over, which typically gives ±100–300 ms accuracy (the popup shows the actual figure). The countdown and start time use the server's clock. |
@@ -107,11 +107,11 @@ You enter shipping and a card **once** per profile in Options. The card is saved
   unlocked key is held in memory (`chrome.storage.session`) and disappears when the browser closes. **Unlock it before
   you arm a drop.** If it's locked, the log warns you and the card is left for you to fill.
 - **At checkout:** the card fields sit inside the payment processor's secure iframes (Shopify's
-  `checkout.pci.shopifyinc.com` on Supreme, Adyen on TNF). A small script in those iframes asks the extension for *its
+  `checkout.pci.shopifyinc.com`). A small script in those iframes asks the extension for *its
   one field*. The background only answers when all of these are true:
   - the vault is unlocked
   - the request comes from a payment iframe
-  - that iframe is inside a Supreme or TNF **checkout** tab
+  - that iframe is inside a Supreme **checkout** tab
   - that checkout asked for a fill within the last 2 minutes
 - **Forgot the passphrase:** Options → **Forgot passphrase** deletes every saved card. Shipping is kept, and you
   re-enter the cards.
@@ -125,9 +125,75 @@ you're not dropping.
 
 ---
 
+## Look (themes & fonts)
+
+Go to **Settings → Look**, click a theme, and it changes everywhere instantly: popup, settings, ledger, and the banner
+on Supreme's pages.
+
+| Theme | Feel | Default font |
+|---|---|---|
+| Night sky | deep blue sky with interactive stars | Space Grotesk |
+| Linux terminal | charcoal background, light grey text, green `user@dropbuddy:~$` prompt, `[ bracket ]` buttons | Ubuntu Mono |
+| Archive | black, bone white, blood red and gold | Space Mono + IBM Plex Mono |
+| Mono | pure black and white | Space Mono |
+| Paper | light mode | Space Grotesk |
+
+The **Font** setting overrides the theme's font. **Animated stars** turns the starfield on or off. The fonts are bundled
+with the extension under the SIL Open Font License (`ui/fonts/`), so they look the same on every computer.
+
+---
+
+## Pre-drop inspection, phone alerts, preview import, restock watch, ledger (v1.5)
+
+- **Pre-drop inspection** (popup button): checks that
+  - your watchlist has items and your shipping profile is complete
+  - your card isn't expired and the card vault is unlocked
+  - the server clock synced
+  - Supreme's product data is still readable, and how many current products match each item
+  - desktop notifications, sound, and phone alerts are on
+
+  Every ✗ is something to fix before the drop.
+- **Phone alerts (Discord)**: Options → *Phone alerts*. Paste a Discord webhook URL, then choose which events send:
+  match, checkout ready, CAPTCHA/queue, your turn, resale result, window ended, and restocks. Use **Send test** to
+  check it. Alerts never include your address, card, or checkout link.
+- **Import from Supreme preview**: Options → load the season's preview (`supreme.com/previews/<season>/all`), filter,
+  tick items, and add them to your watchlist. Keywords are generated from each item's name.
+- **Restock watcher**: tick *Restock watch* on an item and turn on the watcher in *Timing & behavior*. Every N minutes
+  (default 2) it checks `/collections/all` in the background. It **alerts only, it never buys**. It alerts once per size,
+  and again only if that size sells out and comes back. It pauses while a drop run is active.
+- **Ledger** (popup → *Purchase log*): every real checkout DropBuddy reaches is logged as *pending*, with the retail
+  price and resale estimate. Mark each one bought / missed / sold / kept, and enter what it sold for and the fee %.
+  You get your hit rate, total spent, and realized profit. Export it as CSV.
+
+---
+
+## Resale value check
+
+**When an item matches during a run**, DropBuddy looks up its resale value in the background and writes it to the log.
+This never slows down checkout. A log line looks like this:
+
+```
+Resale · Box Logo Hooded Sweatshirt – Black / Medium: StockX M: ask $320 / bid $260 / last $285 · eBay asks: median $288, low $250 (37 listings) · retail $168 · est. spread +$117 before fees
+```
+
+**Any time**, use popup → **Resale check**: type the item (and optionally a size) and press **Check**. You get the
+numbers plus one-click links to StockX, GOAT, Grailed and eBay sold listings.
+
+| Source | How | What you get |
+|---|---|---|
+| StockX | Official Public API v2. You need approval in the StockX Developer Program, then an API key, OAuth client ID/secret, and a refresh token. | Lowest ask, highest bid, last sale for your size (or across all sizes) |
+| eBay | Official Browse API. Free keys from developer.eBay.com (Production App ID + Cert ID). | Current asking prices: median, low, count. eBay's sold-price API is limited to approved partners, so sold prices are a link. |
+| Grailed, GOAT | No public API | One-click search links |
+
+Paste keys in **Options → Resale data → Save keys & grant access**. The browser asks once for permission to reach those
+APIs. Keys stay in this browser, and access tokens are kept in memory only. "Est. spread" is resale value minus retail,
+**before** platform fees and shipping (often 10–15%+).
+
+---
+
 ## Updating selectors when a site changes
 
-Everything site-specific lives in **`config/supreme.js`** and **`config/tnf.js`**.
+Everything site-specific lives in **`config/supreme.js`**.
 
 If the log says something like `products-json not found` or `not found: email, zip`, or a step stalls:
 
@@ -139,24 +205,16 @@ If the log says something like `products-json not found` or `not found: email, z
    expect.
 4. Put it in the matching line of the config file, click **reload ↻** on the extension's card, then do a **dry run**.
 
-Confirming TNF's checkout (do this once, before a TNF launch):
-
-1. Add something to the cart yourself and go to checkout.
-2. Click **Fill checkout on this tab** in the popup and read what it reports as filled and not found.
-3. For any field that wasn't found, inspect it and add its `name` to `checkoutFields` in `config/tnf.js`.
-4. Inspect the final **Place Order** button and put its selector first in `payButton`.
-5. Inspect the card-number box. If it's an iframe from a host other than `*.adyen.com`, add that host to `host_permissions`
-   and to the card-frame `matches` in `manifest.json`. Then add the box's `autocomplete` or `data-fieldtype` to `FIELDS` in
-   `content/cardframe.js`.
-
 ---
 
 ## Permissions (and why)
 
 | Permission | Why |
 |---|---|
-| `us.supreme.com`, `www.thenorthface.com` (host access) | Run the page script on those two sites only, read products, and sync the clock. No other sites. |
-| `checkout.pci.shopifyinc.com`, `*.adyen.com` | Fill the card fields inside the payment processors' secure iframes (Supreme / TNF). |
+| `us.supreme.com` (host access) | Run the page script on Supreme only, read products, and sync the clock. No other sites. |
+| `supreme.com` | Read the season preview page for *Import from Supreme preview*. |
+| `checkout.pci.shopifyinc.com` | Fill the card fields inside Shopify's secure payment iframes. |
+| `api.stockx.com`, `accounts.stockx.com`, `api.ebay.com`, `discord.com` (optional) | Only requested when you save resale API keys or turn on phone alerts. |
 | `storage` | Your watchlist, settings, profiles (cards encrypted), and log. All stored locally in this browser. The unlocked vault key is kept in memory only. |
 | `alarms` | Wake up for an armed drop even if the extension's background worker went to sleep. |
 | `notifications` | The "READY", "your turn", and "CAPTCHA" pop-ups. |
@@ -166,7 +224,7 @@ Confirming TNF's checkout (do this once, before a TNF launch):
 
 ## Good to know
 
-- **Terms of service.** Supreme's and The North Face's terms both prohibit automated purchasing, and either can cancel
+- **Terms of service.** Supreme's terms prohibit automated purchasing, and it can cancel
   orders it flags. That's why this extension stays human-in-the-loop with one tab, and you click pay.
 - **Keep the site tab in front** during a run. Browsers slow down timers in background tabs.
 - **Order limits.** Supreme limits most products to 1 per order. The extension adds one of each watchlist item.
@@ -181,14 +239,16 @@ manifest.json          MV3 manifest
 background.js          run state, alarms, clock sync, notifications, sound
 content/runner.js      on-page state machine (armed → monitoring → carting → checkout → ready)
 adapters/supreme.js    Supreme: read products, cart API, product page, checkout
-adapters/tnf.js        TNF: product cards, color/size picker, add-to-cart check, cart → checkout
-config/*.js            ← every selector and URL, one file per site
+config/supreme.js      ← every selector and URL
 lib/match.js           keyword / color / size priority matching (unit tested)
 lib/time.js            weekly drop time in New York time, DST-safe (unit tested)
 lib/fill.js            field filling for React/Vue checkouts, queue/CAPTCHA detection
 lib/ui.js              page banner, highlight, beep
+lib/resale.js          StockX + eBay official API lookups, resale links (unit tested)
 lib/vault.js           card encryption (AES-GCM + PBKDF2), card validation (unit tested)
 content/cardframe.js   runs inside the payment iframes; fills its one card field
 popup/, options/       UI
+orders/                purchase ledger
+ui/                    themes, bundled fonts, starfield
 tests/                 unit tests (node --test tests/unit.test.js) and a headless-Chrome end-to-end test
 ```
