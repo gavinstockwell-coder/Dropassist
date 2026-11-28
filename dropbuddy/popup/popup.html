@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DropBuddy</title>
+  <link rel="stylesheet" href="../ui/themes.css">
+  <link rel="stylesheet" href="../ui/theme.css">
+  <script src="../ui/theme.js"></script>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <span class="wordmark">dropbuddy<span class="cur">_</span></span>
+    <span id="phase" class="badge">idle</span>
+  </header>
+
+  <section class="hero">
+    <div class="label" id="cdLabel">Next drop</div>
+    <div class="cd" id="cd">--:--:--</div>
+    <div class="small" id="dropWhen"></div>
+    <div class="small">clock <span id="clock">not synced</span> · <button class="link" id="sync">sync</button></div>
+  </section>
+
+  <section class="actions">
+    <div class="row">
+      <button class="primary" id="arm">Arm next drop</button>
+      <button class="danger" id="stop">Stop</button>
+      <button id="resume" class="hidden">Resume</button>
+    </div>
+    <div class="row">
+      <button id="now">Start now</button>
+      <button id="health">Pre-drop check</button>
+    </div>
+    <div class="row hidden" id="unlockRow">
+      <input id="vaultPass" type="password" placeholder="card passphrase">
+      <button id="unlock">Unlock card</button>
+    </div>
+    <div id="healthOut" class="health hidden"></div>
+    <div id="msg" class="msg hidden"></div>
+    <input type="hidden" id="site" value="supreme">
+  </section>
+
+  <div id="runInfo" class="runinfo small"></div>
+
+  <details class="more">
+    <summary>More</summary>
+    <div class="row">
+      <select id="profile" title="Profile used at checkout"></select>
+      <span id="vaultState" class="small"></span>
+    </div>
+    <button id="fill" class="wide">Fill checkout on this tab</button>
+    <div class="sub">Dry run</div>
+    <div class="row" id="dryBox">
+      <input id="dryKw" type="text" placeholder="keyword (blank = anything in stock)">
+      <button id="dry">Run</button>
+    </div>
+    <div class="sub">Resale check</div>
+    <div class="row">
+      <input id="rq" type="text" placeholder="e.g. box logo hooded black">
+      <input id="rs" type="text" placeholder="size" class="size">
+      <button id="rgo">Check</button>
+    </div>
+    <div id="rout" class="small"></div>
+    <div id="rlinks" class="small"></div>
+  </details>
+
+  <details class="more" id="logBox">
+    <summary>Log <span class="logbtns"><button class="link" id="copyLog">copy</button> · <button class="link" id="clearLog">clear</button></span></summary>
+    <pre id="log"></pre>
+  </details>
+
+  <footer>
+    <span><a href="#" id="opts">settings</a> · <a href="#" id="orders">ledger</a></span>
+    <span id="warn" class="warn"></span>
+  </footer>
+
+  <script src="../lib/ns.js"></script>
+  <script src="../lib/time.js"></script>
+  <script src="../ui/stars.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

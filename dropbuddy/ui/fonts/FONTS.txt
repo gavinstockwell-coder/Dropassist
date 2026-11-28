@@ -1,0 +1,7 @@
+Bundled fonts (all SIL Open Font License 1.1, see LICENSE-OFL.txt), via Fontsource:
+- Space Grotesk — Florian Karsten
+- Space Mono — Colophon Foundry
+- IBM Plex Mono — IBM
+- Share Tech Mono — Carrois Apostrophe
+- VT323 — Peter Hull
+- Ubuntu Mono — Dalton Maag (Ubuntu Font Licence 1.0, see LICENSE-UBUNTU.txt)

@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DropBuddy – Options</title>
+  <link rel="stylesheet" href="../ui/themes.css">
+  <link rel="stylesheet" href="../ui/theme.css">
+  <script src="../ui/theme.js"></script>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <header>
+    <h1><span class="wordmark">dropbuddy<span class="cur">_</span></span> <span class="hint">settings</span></h1>
+    <div class="actions">
+      <span id="status" class="status"></span>
+      <button id="save" class="primary">Save</button>
+    </div>
+  </header>
+
+  <main>
+    <details class="sec" open>
+      <summary><h2>Look <span class="hint">Theme, font and background. Changes apply instantly everywhere.</span></h2></summary>
+      <div class="looks" id="looks">
+        <button class="look" data-theme-pick="night"><div class="sw" style="background:radial-gradient(120% 90% at 50% 0%,#101a33,#020308);color:#e9ecf1;font-family:'DB Grotesk'">09:41</div><div class="nm">Night sky</div></button>
+        <button class="look" data-theme-pick="terminal"><div class="sw" style="background:#1e1e1e;color:#d3d7cf;font-family:'DB Ubuntu';font-size:15px;font-weight:400;flex-direction:column;align-items:flex-start;justify-content:flex-end"><span><span style="color:#8ae234">user@db</span><span style="color:#729fcf">:~$</span> run</span><span>09:41 █</span></div><div class="nm">Linux terminal</div></button>
+        <button class="look" data-theme-pick="archive"><div class="sw" style="background:radial-gradient(120% 90% at 50% 0%,#3a0d0d,#040303);color:#ece5d3;font-family:'DB SpaceMono'">09:41</div><div class="nm">Archive</div></button>
+        <button class="look" data-theme-pick="mono"><div class="sw" style="background:#000;color:#fff;font-family:'DB SpaceMono'">09:41</div><div class="nm">Mono</div></button>
+        <button class="look" data-theme-pick="paper"><div class="sw" style="background:#f3f1ec;color:#141414;font-family:'DB Grotesk'">09:41</div><div class="nm">Paper</div></button>
+      </div>
+      <input type="hidden" data-s="theme">
+      <div class="grid">
+        <label>Font
+          <select data-s="font" id="fontSel">
+            <option value="auto">Theme default</option>
+            <option value="grotesk">Space Grotesk — clean</option>
+            <option value="spacemono">Space Mono — retro mono</option>
+            <option value="plex">IBM Plex Mono — code</option>
+            <option value="sharetech">Share Tech Mono — tech</option>
+            <option value="ubuntu">Ubuntu Mono — Linux terminal</option>
+            <option value="vt323">VT323 — old CRT terminal</option>
+          </select>
+        </label>
+        <label class="check"><input data-s="stars" type="checkbox" id="starsChk"> Animated stars (themes that have them)</label>
+      </div>
+    </details>
+
+    <details class="sec" open>
+      <summary><h2>Watchlist <span class="hint">Top item = highest priority. One item buys one product.</span></h2></summary>
+      <div id="items"></div>
+      <button id="addItem">+ Add item</button>
+      <details class="help">
+        <summary>How matching works</summary>
+        <ul>
+          <li><b>Keywords</b>: every one must appear in the product name (whole words). Commas separate them: <code>box logo, hooded</code>.</li>
+          <li><b>Exclude</b>: skip the product if any appear: <code>tee, beanie</code>.</li>
+          <li><b>Colors</b> and <b>Sizes</b>: in priority order. End with <code>any</code> to accept anything else as a last resort. Leave blank for "any".</li>
+          <li><b>Product URL</b>: skip keyword search and go straight to that product.</li>
+          <li><b>Drop time</b>: blank uses the weekly default below (Thursday 11:00 AM New York). Set it for one-off drops.</li>
+          <li>Sizes understand S / Small, M / Medium, L / Large, XL / XLarge, XXL / 2XL, and numbers like 10.5 or 32.</li>
+        </ul>
+      </details>
+    </details>
+
+    <details class="sec">
+      <summary><h2>Import from Supreme preview <span class="hint">Pick items from the season preview instead of typing keywords.</span></h2></summary>
+      <div class="row">
+        <select id="pvSeason"></select>
+        <button id="pvLoad">Load items</button>
+        <input id="pvFilter" placeholder="filter… (e.g. box logo)" style="flex:1">
+      </div>
+      <div class="row">
+        <label style="flex-direction:row;align-items:center;gap:6px">Sizes for added items <input id="pvSizes" placeholder="L, XL" style="width:120px"></label>
+        <label class="check"><input id="pvRestock" type="checkbox"> also restock-watch</label>
+        <button id="pvAdd" class="primary">Add selected to watchlist</button>
+        <span id="pvOut" class="note" style="margin:0"></span>
+      </div>
+      <div id="pvList" class="pvlist"></div>
+      <p class="note">Keywords are generated from each item's name (you can edit them after). Preview names usually match the shop's names, but run the pre-drop check on drop morning to be sure.</p>
+    </details>
+
+    <details class="sec" open>
+      <summary><h2>Profiles <span class="hint">Shipping + card, entered once. The active profile is used at checkout.</span></h2></summary>
+      <div class="row">
+        <select id="profileSel"></select>
+        <button id="addProfile">+ New profile</button>
+        <button id="delProfile" class="del">Delete</button>
+        <label class="check"><input id="isActive" type="checkbox"> Use at checkout</label>
+      </div>
+      <div class="grid">
+        <label class="span2">Profile name <input data-p="__name" placeholder="Main"></label>
+        <label>Email <input data-p="email" type="email" autocomplete="off"></label>
+        <label>Phone <input data-p="phone" type="tel" autocomplete="off"></label>
+        <label>First name <input data-p="firstName" autocomplete="off"></label>
+        <label>Last name <input data-p="lastName" autocomplete="off"></label>
+        <label class="span2">Address <input data-p="address1" autocomplete="off"></label>
+        <label class="span2">Apt / unit <input data-p="address2" autocomplete="off"></label>
+        <label>City <input data-p="city" autocomplete="off"></label>
+        <label>State (2 letters) <input data-p="state" maxlength="2" placeholder="TX" autocomplete="off"></label>
+        <label>ZIP <input data-p="zip" autocomplete="off"></label>
+        <label>Country <input data-p="country" maxlength="2" placeholder="US" autocomplete="off"></label>
+      </div>
+
+      <h3>Card for this profile</h3>
+      <div id="vaultLine" class="vault"></div>
+      <div id="cardSaved" class="hidden"><span id="cardLabel"></span> <button id="removeCard" class="mini del">Remove</button> <button id="replaceCard" class="mini">Replace</button></div>
+      <div id="cardForm" class="grid hidden">
+        <label class="span2">Card number <input id="cNumber" inputmode="numeric" autocomplete="off" placeholder="4242 4242 4242 4242"></label>
+        <label>Expiry (MM/YY) <input id="cExp" autocomplete="off" placeholder="08/29"></label>
+        <label>CVV <input id="cCvv" inputmode="numeric" autocomplete="off" placeholder="123" type="password"></label>
+        <label class="span2">Name on card (blank = profile name) <input id="cName" autocomplete="off"></label>
+        <div class="span2"><button id="saveCard" class="primary">Encrypt &amp; save card</button></div>
+      </div>
+      <p class="note">Cards are encrypted with your passphrase (AES-256) before they're stored; only the last 4 digits are kept readable.
+        Unlock once per browser session from the popup. Lose the passphrase = re-enter cards (shipping is kept).</p>
+    </details>
+
+    <details class="sec">
+      <summary><h2>Timing &amp; behavior</h2></summary>
+      <div class="grid">
+        <label>Check every (ms, min 1000) <input data-s="pollMs" type="number" min="1000" step="250"></label>
+        <label>Start checking (seconds before drop) <input data-s="leadSec" type="number" min="0" max="600"></label>
+        <label>Stop after (minutes past drop) <input data-s="runMin" type="number" min="1" max="120"></label>
+        <label>Supreme add-to-cart
+          <select data-s="addMethod">
+            <option value="direct">Direct (fastest — same request as the site's button)</option>
+            <option value="page">Click through the product page</option>
+          </select>
+        </label>
+        <label class="check"><input data-s="onlyNew" type="checkbox"> Ignore products already listed before the drop (armed runs)</label>
+        <label class="check"><input data-s="sound" type="checkbox"> Sound alerts <button id="testSound" class="mini">test</button></label>
+        <label class="check"><input data-s="restockOn" type="checkbox"> Restock watcher (items with "Restock watch" ticked; alerts only)</label>
+        <label>Restock check every (minutes) <input data-s="restockMin" type="number" min="1" max="60"></label>
+      </div>
+      <h3>Default weekly drop</h3>
+      <div class="grid">
+        <label>Day
+          <select data-s="dropWeekday">
+            <option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option>
+            <option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+          </select>
+        </label>
+        <label>Time (in the zone below) <input id="dropTime" type="time"></label>
+        <label class="span2">Time zone (IANA) <input data-s="dropTz" placeholder="America/New_York"></label>
+      </div>
+    </details>
+
+    <details class="sec">
+      <summary><h2>Phone alerts <span class="hint">Discord webhook → push notification on your phone.</span></h2></summary>
+      <div class="grid">
+        <label class="check span2"><input id="pushOn" type="checkbox"> Send alerts to Discord</label>
+        <label class="span2">Webhook URL <input id="pushHook" type="password" autocomplete="off" placeholder="https://discord.com/api/webhooks/…"></label>
+        <label class="span2">Ping (optional, for urgent alerts) <input id="pushMention" autocomplete="off" placeholder="@everyone or <@your-user-id>"></label>
+      </div>
+      <h3>Send when…</h3>
+      <div class="grid">
+        <label class="check"><input data-ev="match" type="checkbox"> An item matches</label>
+        <label class="check"><input data-ev="ready" type="checkbox"> Checkout is ready (your turn to pay)</label>
+        <label class="check"><input data-ev="blocked" type="checkbox"> CAPTCHA / queue / paused</label>
+        <label class="check"><input data-ev="turn" type="checkbox"> You need to click something</label>
+        <label class="check"><input data-ev="resale" type="checkbox"> Resale check result</label>
+        <label class="check"><input data-ev="ended" type="checkbox"> Window ended with no match</label>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="savePush" class="primary">Save &amp; grant access</button>
+        <button id="testPush">Send test</button>
+        <span id="pushOut" class="note" style="margin:0"></span>
+      </div>
+      <p class="note">Setup (2 min): in Discord make a private server → Server Settings → Integrations → Webhooks → New Webhook → Copy URL.
+        Install Discord on your phone with notifications on. Alerts never include your address, card or checkout link.
+        Treat the webhook URL like a password — anyone with it can post to that channel.</p>
+    </details>
+
+    <details class="sec">
+      <summary><h2>Resale data <span class="hint">Optional. Official APIs only, with your own keys. Shown in the popup and logged when an item matches.</span></h2></summary>
+      <h3>StockX (needs approval in the StockX Developer Program)</h3>
+      <div class="grid">
+        <label class="span2">API key (x-api-key) <input data-k="stockx.apiKey" type="password" autocomplete="off"></label>
+        <label>OAuth client ID <input data-k="stockx.clientId" autocomplete="off"></label>
+        <label>OAuth client secret <input data-k="stockx.clientSecret" type="password" autocomplete="off"></label>
+        <label class="span2">Refresh token <input data-k="stockx.refreshToken" type="password" autocomplete="off"></label>
+      </div>
+      <h3>eBay (free keys from developer.ebay.com → Production keyset)</h3>
+      <div class="grid">
+        <label>App ID (client ID) <input data-k="ebay.clientId" autocomplete="off"></label>
+        <label>Cert ID (client secret) <input data-k="ebay.clientSecret" type="password" autocomplete="off"></label>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="saveKeys" class="primary">Save keys &amp; grant access</button>
+        <input id="testQ" placeholder="test: box logo hooded" style="flex:1">
+        <button id="testKeys">Test</button>
+      </div>
+      <div id="testOut" class="note"></div>
+      <p class="note">Grailed and GOAT have no public API, so they're one-click search links in the popup. eBay's sold-price API is restricted to approved partners, so eBay shows current asking prices plus a link to sold listings. Keys stay in this browser; they aren't in backups.</p>
+    </details>
+
+    <details class="sec">
+      <summary><h2>Backup</h2></summary>
+      <button id="export">Export settings + watchlist</button>
+      <label class="filebtn">Import… <input id="import" type="file" accept="application/json"></label>
+      <p class="note">Export doesn't include profiles or cards.</p>
+    </details>
+  </main>
+
+  <template id="itemTpl">
+    <div class="item">
+      <div class="itemhead">
+        <label class="check"><input data-f="enabled" type="checkbox"> On</label>
+        <label class="check" title="Check this item in the background all week and alert (never buys) when your size is in stock"><input data-f="restock" type="checkbox"> Restock watch</label>
+        <input type="hidden" data-f="site" value="supreme">
+        <input data-f="label" class="labelin" placeholder="Name (optional)">
+        <span class="move">
+          <button data-act="up" title="Higher priority">↑</button>
+          <button data-act="down" title="Lower priority">↓</button>
+          <button data-act="del" title="Delete" class="del">✕</button>
+        </span>
+      </div>
+      <div class="grid">
+        <label>Keywords (all required) <input data-f="include" placeholder="box logo, hooded"></label>
+        <label>Exclude <input data-f="exclude" placeholder="tee, beanie"></label>
+        <label>Colors (priority) <input data-f="colors" placeholder="black, grey, any"></label>
+        <label>Sizes (priority) <input data-f="sizes" placeholder="L, XL"></label>
+        <label class="span2">Product URL (optional) <input data-f="url" placeholder="https://us.supreme.com/products/…"></label>
+        <label>Drop time (blank = weekly default) <input data-f="dropAt" type="datetime-local"></label>
+      </div>
+    </div>
+  </template>
+
+  <script src="../lib/ns.js"></script>
+  <script src="../lib/defaults.js"></script>
+  <script src="../lib/match.js"></script>
+  <script src="../ui/stars.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

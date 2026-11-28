@@ -1,0 +1,12 @@
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font: 700 11px var(--head);  color: var(--dim); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; border-bottom: 1px solid var(--line); padding: 6px 4px; }
+td { border-bottom: 1px dotted var(--line); padding: 4px; vertical-align: middle; }
+td input, td select { width: 100%; padding: 3px 5px; font-size: 12px; }
+td select { min-width: 96px; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pos { color: var(--okc); } .neg { color: var(--errc); }
+.totals { display: flex; gap: 28px; flex-wrap: wrap; }
+.totals div { display: flex; flex-direction: column; }
+.totals b { font: 700 26px var(--head);  }
+.totals span { color: var(--dim); font-size: 10px; text-transform: uppercase; letter-spacing: .14em; }
+.sub { color: var(--dim); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; margin-left: 10px; }

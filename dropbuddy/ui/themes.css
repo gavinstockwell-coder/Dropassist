@@ -1,0 +1,100 @@
+/* Fonts (bundled, OFL) */
+@font-face { font-family: "DB Grotesk"; src: url("fonts/space-grotesk-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DB Grotesk"; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "DB SpaceMono"; src: url("fonts/space-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DB SpaceMono"; src: url("fonts/space-mono-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "DB Plex"; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DB Plex"; src: url("fonts/ibm-plex-mono-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "DB ShareTech"; src: url("fonts/share-tech-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+@font-face { font-family: "DB Ubuntu"; src: url("fonts/ubuntu-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DB Ubuntu"; src: url("fonts/ubuntu-mono-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "DB VT323"; src: url("fonts/vt323-latin-400-normal.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+
+/* ---------- Themes ---------- */
+/* night (default): deep blue sky, stars */
+:root, [data-theme="night"] {
+  --sky: radial-gradient(140% 90% at 50% 0%, #101a33 0%, #070b17 45%, #020308 100%);
+  --bg: #05070b; --panel: rgba(8, 11, 20, .72); --line: #1c2230; --line2: #343d50; --field: rgba(0, 0, 0, .45);
+  --fg: #e9ecf1; --dim: #7d8697; --faint: #4c5466;
+  --accent: #c4372f; --warnc: #d6b06a; --okc: #9fd3a8; --errc: #e79a92;
+  --btn-bg: #a1211f; --btn-fg: #fff; --btn-border: #c4372f;
+  --glow: rgba(120, 150, 230, .45); --live-bg: rgba(142, 27, 27, .45);
+  --f-body: "DB Grotesk", system-ui, sans-serif; --f-head: "DB Grotesk", system-ui, sans-serif; --f-num: "DB Grotesk", system-ui, sans-serif; --f-code: "DB Plex", Consolas, monospace;
+  --head-case: uppercase; --head-track: .06em; --num-size: 1; --body-size: 13px;
+  --star: 1;
+}
+/* terminal: a plain Linux terminal — charcoal background, light grey text, green only on the prompt */
+[data-theme="terminal"] {
+  --sky: #1e1e1e;
+  --bg: #1e1e1e; --panel: #252525; --line: #333; --line2: #4a4a4a; --field: #1a1a1a;
+  --fg: #d3d7cf; --dim: #8f948c; --faint: #5f635c;
+  --accent: #8ae234; --warnc: #fce94f; --okc: #8ae234; --errc: #ef2929;
+  --btn-bg: #d3d7cf; --btn-fg: #1e1e1e; --btn-border: #d3d7cf;
+  --glow: transparent; --live-bg: #4e9a06;
+  --f-body: "DB Ubuntu", "DejaVu Sans Mono", monospace; --f-head: "DB Ubuntu", monospace; --f-num: "DB Ubuntu", monospace; --f-code: "DB Ubuntu", monospace;
+  --head-case: none; --head-track: 0; --num-size: 1.05; --body-size: 14px;
+  --star: 0;
+}
+/* archive: candlelit black, bone white, blood red + gold */
+[data-theme="archive"] {
+  --sky: radial-gradient(120% 70% at 50% -10%, rgba(142, 27, 27, .28), transparent 60%), #040303;
+  --bg: #040303; --panel: rgba(16, 11, 10, .8); --line: #2b1f1c; --line2: #4a332b; --field: rgba(0, 0, 0, .5);
+  --fg: #ece5d3; --dim: #8b8174; --faint: #5b524a;
+  --accent: #b3261e; --warnc: #b08d57; --okc: #ece5d3; --errc: #e79a92;
+  --btn-bg: #8e1b1b; --btn-fg: #f6efe0; --btn-border: #b08d57;
+  --glow: rgba(142, 27, 27, .5); --live-bg: rgba(142, 27, 27, .45);
+  --f-body: "DB Plex", Consolas, monospace; --f-head: "DB SpaceMono", Consolas, monospace; --f-num: "DB SpaceMono", Consolas, monospace; --f-code: "DB Plex", Consolas, monospace;
+  --head-case: uppercase; --head-track: .1em; --num-size: 1; --body-size: 12.5px;
+  --star: .5;
+}
+/* mono: pure black and white */
+[data-theme="mono"] {
+  --sky: #000;
+  --bg: #000; --panel: rgba(12, 12, 12, .85); --line: #262626; --line2: #444; --field: #000;
+  --fg: #fff; --dim: #8a8a8a; --faint: #555;
+  --accent: #fff; --warnc: #bdbdbd; --okc: #fff; --errc: #fff;
+  --btn-bg: #fff; --btn-fg: #000; --btn-border: #fff;
+  --glow: rgba(255, 255, 255, .25); --live-bg: rgba(255, 255, 255, .15);
+  --f-body: "DB SpaceMono", Consolas, monospace; --f-head: "DB SpaceMono", Consolas, monospace; --f-num: "DB SpaceMono", Consolas, monospace; --f-code: "DB SpaceMono", Consolas, monospace;
+  --head-case: uppercase; --head-track: .06em; --num-size: .95; --body-size: 12.5px;
+  --star: .8;
+}
+/* paper: light mode */
+[data-theme="paper"] {
+  --sky: #f3f1ec;
+  --bg: #f3f1ec; --panel: #ffffff; --line: #e2ded5; --line2: #c9c3b6; --field: #fff;
+  --fg: #141414; --dim: #6b665c; --faint: #a39d91;
+  --accent: #c4372f; --warnc: #9a6b12; --okc: #227a3a; --errc: #b3261e;
+  --btn-bg: #141414; --btn-fg: #fff; --btn-border: #141414;
+  --glow: transparent; --live-bg: #c4372f;
+  --f-body: "DB Grotesk", system-ui, sans-serif; --f-head: "DB Grotesk", system-ui, sans-serif; --f-num: "DB Grotesk", system-ui, sans-serif; --f-code: "DB Plex", Consolas, monospace;
+  --head-case: uppercase; --head-track: .04em; --num-size: 1; --body-size: 13px;
+  --star: 0;
+}
+/* font override (Settings → Look → Font) */
+[data-font="grotesk"] { --f-body: "DB Grotesk", sans-serif; --f-head: "DB Grotesk", sans-serif; --f-num: "DB Grotesk", sans-serif; --num-size: 1; --body-size: 13px; }
+[data-font="spacemono"] { --f-body: "DB SpaceMono", monospace; --f-head: "DB SpaceMono", monospace; --f-num: "DB SpaceMono", monospace; --num-size: .95; --body-size: 12.5px; }
+[data-font="plex"] { --f-body: "DB Plex", monospace; --f-head: "DB Plex", monospace; --f-num: "DB Plex", monospace; --num-size: .95; --body-size: 12.5px; }
+[data-font="sharetech"] { --f-body: "DB ShareTech", monospace; --f-head: "DB ShareTech", monospace; --f-num: "DB ShareTech", monospace; --num-size: 1; --body-size: 13.5px; }
+[data-font="ubuntu"] { --f-body: "DB Ubuntu", monospace; --f-head: "DB Ubuntu", monospace; --f-num: "DB Ubuntu", monospace; --num-size: 1.05; --body-size: 14px; }
+[data-font="vt323"] { --f-body: "DB VT323", monospace; --f-head: "DB VT323", monospace; --f-num: "DB VT323", monospace; --num-size: 1.35; --body-size: 16px; }
+
+/* terminal extras: prompt-style title, TUI brackets on buttons, lowercase labels, no glow */
+[data-theme="terminal"] .wordmark { text-transform: none; letter-spacing: 0; font-size: 16px; color: #8ae234; }
+[data-theme="terminal"] .wordmark::before { content: "user@"; color: #8ae234; }
+[data-theme="terminal"] .wordmark .cur { color: var(--fg); animation: none; }
+[data-theme="terminal"] .wordmark .cur::before { content: ":"; color: #729fcf; }
+[data-theme="terminal"] .wordmark .cur { font-size: 0; }
+[data-theme="terminal"] .wordmark .cur::before { content: ":~$"; font-size: 16px; color: #729fcf; }
+[data-theme="terminal"] .wordmark .cur::after { content: " █"; font-size: 16px; color: var(--fg); animation: blink 1s steps(1) infinite; }
+[data-theme="terminal"] button { text-transform: lowercase; letter-spacing: 0; font-weight: 400; font-size: 13px; }
+[data-theme="terminal"] button:not(.link):not(.look)::before { content: "[ "; color: var(--dim); }
+[data-theme="terminal"] button:not(.link):not(.look)::after { content: " ]"; color: var(--dim); }
+[data-theme="terminal"] button.primary::before, [data-theme="terminal"] button.primary::after { color: var(--btn-fg); }
+[data-theme="terminal"] h2::before { content: "$ "; color: #8ae234; }
+[data-theme="terminal"] .label, [data-theme="terminal"] label, [data-theme="terminal"] th, [data-theme="terminal"] .more summary { text-transform: lowercase; letter-spacing: 0; }
+[data-theme="terminal"] .badge { text-transform: lowercase; letter-spacing: 0; }
+[data-theme="terminal"] .cd { text-shadow: none; }
+[data-theme="terminal"] h2, [data-theme="terminal"] h1 { text-transform: lowercase; letter-spacing: 0; }
+[data-theme="terminal"] #stop { flex-basis: 100px; }
+[data-theme="terminal"] .move button { padding: 3px 6px; }
